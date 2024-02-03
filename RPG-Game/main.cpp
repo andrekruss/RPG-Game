@@ -1,30 +1,34 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 int main()
 {
+    //-------------------------------INITIALIZATION-------------------------------//
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(800, 600), "RPG Game", sf::Style::Default, settings);
+    //-------------------------------INITIALIZATION-------------------------------//
 
-    sf::CircleShape circle(50.0f);
-    circle.setFillColor(sf::Color::Red);
-    circle.setPosition(sf::Vector2f(100.0f, 100.0f)); //POSITION IS ALWAYS TOP-LEFT IN SFML
-    circle.setOutlineThickness(10.0f);
-    circle.setOutlineColor(sf::Color::Blue);
+    //-------------------------------LOAD-------------------------------//
+    sf::Texture playerTexture;
+    sf::Sprite playerSprite;
 
-    sf::RectangleShape rectangle(sf::Vector2f(40.0f, 40.0f));
-    rectangle.setFillColor(sf::Color::Magenta);
-    rectangle.setPosition(sf::Vector2f(200.0f, 200.0f));
-    rectangle.setOutlineThickness(5.0f);
-    rectangle.setOutlineColor(sf::Color::Cyan);
-    //rectangle.rotate(45.0f);
+    if (playerTexture.loadFromFile("Assets/Player/Textures/spritesheet.png"))
+    {
+        std::cout << "Player texture succesfully loaded!" << std::endl;
+        playerSprite.setTexture(playerTexture);
 
-    // Regular polygons(triangle, square, octagons, etc) can be represented by using CircleShape class
-    sf::CircleShape triangle(50.0f, 3);
-    triangle.setFillColor(sf::Color::Yellow);
-    triangle.setPosition(sf::Vector2f(350.0f, 350.0f));
+        int xIndex = 0, yIndex = 0;
+        int width = 64, height = 64;
 
-    
+        playerSprite.setTextureRect(sf::IntRect(64 * xIndex, 64 * yIndex, width, height));
+        playerSprite.scale(sf::Vector2f(3, 3));
+    }
+    else
+    {
+        std::cout << "Player image failed to load!" << std::endl;
+    }
+    //-------------------------------LOAD-------------------------------//
 
     // Game Loop
     while (window.isOpen())
@@ -35,16 +39,29 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+            sf::Vector2f previousPosition = playerSprite.getPosition();
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                playerSprite.setPosition(previousPosition + sf::Vector2f(5, 0));
+
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+                playerSprite.setPosition(previousPosition + sf::Vector2f(-5, 0));         
+
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+                playerSprite.setPosition(previousPosition + sf::Vector2f(0, 5));
+
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+                playerSprite.setPosition(previousPosition + sf::Vector2f(0, -5));         
+        }
+
          //-------------------------------UPDATE-------------------------------//
 
          //-------------------------------DRAW-------------------------------//
             window.clear(sf::Color::Black);
-            window.draw(circle);
-            window.draw(rectangle);
-            window.draw(triangle);
+            window.draw(playerSprite);
             window.display();
             //-------------------------------DRAW-------------------------------//
-        }
     }
 
     return 0;
