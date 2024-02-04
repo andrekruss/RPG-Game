@@ -1,28 +1,48 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 
 int main()
 {
     //-------------------------------INITIALIZATION-------------------------------//
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    sf::RenderWindow window(sf::VideoMode(800, 600), "RPG Game", sf::Style::Default, settings);
+    int windowWidth = 1280, windowHeight = 800;
+    sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "RPG Game", sf::Style::Default, settings);
     //-------------------------------INITIALIZATION-------------------------------//
 
     //-------------------------------LOAD-------------------------------//
+    sf::Texture skeletonTexture;
+    sf::Sprite skeletonSprite;
     sf::Texture playerTexture;
     sf::Sprite playerSprite;
+    int xPlayerSpriteIndex = 4, yPlayerSpriteIndex = 2;
+    int xSkeletonSpriteIndex = 2, ySkeletonSpriteIndex = 3;
+    int spriteWidth = 64, spriteHeight = 64;
+
+
+    if (skeletonTexture.loadFromFile("Assets/Skeleton/Textures/spritesheet.png")) 
+    {
+        std::cout << "Skeleton texture succesfully loaded!" << std::endl;
+        skeletonSprite.setTexture(skeletonTexture);
+
+        skeletonSprite.setTextureRect(sf::IntRect(64 * xSkeletonSpriteIndex, 64 * ySkeletonSpriteIndex, spriteWidth, spriteHeight));
+        skeletonSprite.scale(sf::Vector2f(3.0f, 3.0f));
+        skeletonSprite.setPosition(sf::Vector2f(400.0f, 400.0f));
+    }
+
+    else
+    {
+        std::cout << "Skeleton image failed to load!" << std::endl;
+    }
 
     if (playerTexture.loadFromFile("Assets/Player/Textures/spritesheet.png"))
     {
         std::cout << "Player texture succesfully loaded!" << std::endl;
         playerSprite.setTexture(playerTexture);
 
-        int xIndex = 0, yIndex = 0;
-        int width = 64, height = 64;
-
-        playerSprite.setTextureRect(sf::IntRect(64 * xIndex, 64 * yIndex, width, height));
-        playerSprite.scale(sf::Vector2f(3, 3));
+        playerSprite.setTextureRect(sf::IntRect(64 * xPlayerSpriteIndex, 64 * yPlayerSpriteIndex, spriteWidth, spriteHeight));
+        playerSprite.scale(sf::Vector2f(3.0f, 3.0f));
     }
     else
     {
@@ -60,6 +80,7 @@ int main()
          //-------------------------------DRAW-------------------------------//
             window.clear(sf::Color::Black);
             window.draw(playerSprite);
+            window.draw(skeletonSprite);
             window.display();
             //-------------------------------DRAW-------------------------------//
     }
