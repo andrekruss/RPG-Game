@@ -12,6 +12,7 @@ private:
 	int spriteWidth = 64, spriteHeight = 64;
 	int xSpriteIndex = 4, ySpriteIndex = 2;
 	float bulletSpeed = 0.5f;
+	float speed = 2.0f;
 	std::vector<sf::RectangleShape> bullets;
 	sf::RectangleShape boundingRectangle;
 public:
@@ -19,6 +20,6 @@ public:
 public:
 	void Initialize(); // called only once
 	void Load(); // called onde per APP start
-	void Update(Skeleton& skeleton); // once per frame
+	void Update(float deltaTime, Skeleton& skeleton); // once per frame
 	void Draw(sf::RenderWindow& window); // once per frame
 };
