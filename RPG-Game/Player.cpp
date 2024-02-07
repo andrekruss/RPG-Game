@@ -4,17 +4,20 @@
 
 void Player::Initialize()
 {
+    size = sf::Vector2i(spriteWidth, spriteHeight);
+    boundingRectangle.setSize(sf::Vector2f(sizeScaling * size.x, sizeScaling * size.y));
+    boundingRectangle.setOutlineThickness(2.0f);
+    boundingRectangle.setFillColor(sf::Color::Transparent);
+    boundingRectangle.setOutlineColor(sf::Color::Blue);
 }
 
 void Player::Load()
 {
-    int xSpriteIndex = 4, ySpriteIndex = 2;
-    int spriteWidth = 64, spriteHeight = 64;
     if (texture.loadFromFile("Assets/Player/Textures/spritesheet.png"))
     {
         std::cout << "Player texture succesfully loaded!" << std::endl;
         sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(64 * xSpriteIndex, 64 * ySpriteIndex, spriteWidth, spriteHeight));
+        sprite.setTextureRect(sf::IntRect(xSpriteIndex * size.x, ySpriteIndex * size.y, spriteWidth, spriteHeight));
         sprite.scale(sf::Vector2f(3.0f, 3.0f));
     }
     else
@@ -54,11 +57,19 @@ void Player::Update(Skeleton& skeleton)
         sf::Vector2f normalizedBulletDirection = VectorMath::normalizeVector(bulletDirection);
         bullets[i].setPosition(bullets[i].getPosition() + normalizedBulletDirection);
     }
+
+    boundingRectangle.setPosition(sprite.getPosition());
+
+    if (VectorMath::CheckCollision(sprite.getGlobalBounds(), skeleton.sprite.getGlobalBounds()))
+    {
+        std::cout << "Collision!" << std::endl;
+    }
 }
 
 void Player::Draw(sf::RenderWindow& window)
 {
     window.draw(sprite);
+    window.draw(boundingRectangle);
     for (size_t i = 0; i < bullets.size(); i++)
     {
         window.draw(bullets[i]);
