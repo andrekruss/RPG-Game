@@ -2,6 +2,21 @@
 #include "VectorMath.h"
 #include <iostream>
 
+Player::Player() :
+    speed(3.0f),
+    bulletSpeed(5.0f),
+    xSpriteIndex(4),
+    ySpriteIndex(2),
+    spriteWidth(64),
+    spriteHeight(64),
+    sizeScaling(3)
+{
+}
+
+Player::~Player()
+{
+}
+
 void Player::Initialize()
 {
     size = sf::Vector2i(spriteWidth, spriteHeight);

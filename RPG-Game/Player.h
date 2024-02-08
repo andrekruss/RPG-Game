@@ -7,17 +7,19 @@ class Player
 {
 private:
 	sf::Texture texture;
-	int sizeScaling = 3;
+	int sizeScaling;
 	sf::Vector2i size;
-	int spriteWidth = 64, spriteHeight = 64;
-	int xSpriteIndex = 4, ySpriteIndex = 2;
-	float bulletSpeed = 0.5f;
-	float speed = 2.0f;
+	int spriteWidth, spriteHeight;
+	int xSpriteIndex, ySpriteIndex;
+	float bulletSpeed;
+	float speed;
 	std::vector<sf::RectangleShape> bullets;
 	sf::RectangleShape boundingRectangle;
 public:
 	sf::Sprite sprite;
 public:
+	Player();
+	~Player();
 	void Initialize(); // called only once
 	void Load(); // called onde per APP start
 	void Update(float deltaTime, Skeleton& skeleton); // once per frame

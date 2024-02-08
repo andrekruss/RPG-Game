@@ -1,6 +1,19 @@
 #include "Skeleton.h"
 #include <iostream>
 
+Skeleton::Skeleton() : 
+    xSpriteIndex(6),
+    ySpriteIndex(3),
+    spriteWidth(64),
+    spriteHeight(64),
+    sizeScaling(3)
+{
+}
+
+Skeleton::~Skeleton()
+{
+}
+
 void Skeleton::Initialize()
 {
     size = sf::Vector2i(spriteWidth, spriteHeight);
