@@ -43,9 +43,10 @@ int main()
         timer = clock.restart();
         deltaTime = timer.asMicroseconds() / 1000.0;
 
+        sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
         frameRate.Update(deltaTime);
         skeleton.Update(deltaTime);
-        player.Update(deltaTime, skeleton);
+        player.Update(deltaTime, skeleton, mousePosition);
 
         window.clear(sf::Color::Black);
         player.Draw(window);
