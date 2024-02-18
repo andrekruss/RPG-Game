@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Skeleton.h"
 #include "FrameRate.h"
+#include "Map.h"
 
 int main()
 {
@@ -12,6 +13,10 @@ int main()
     int windowWidth = 1280, windowHeight = 800;
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "RPG Game", sf::Style::Default, settings);
     window.setFramerateLimit(60);
+
+    Map map;
+    map.Initialize();
+    map.Load();
 
     Player player;
     player.Initialize();
@@ -45,10 +50,12 @@ int main()
 
         sf::Vector2f mousePosition = sf::Vector2f(sf::Mouse::getPosition(window));
         frameRate.Update(deltaTime);
+        map.Update(deltaTime);
         skeleton.Update(deltaTime);
         player.Update(deltaTime, skeleton, mousePosition);
 
-        window.clear(sf::Color::Black);
+        window.clear(sf::Color::Red);
+        map.Draw(window);
         player.Draw(window);
         skeleton.Draw(window);
         frameRate.Draw(window);
