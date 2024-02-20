@@ -52,9 +52,9 @@ int main()
         frameRate.Update(deltaTime);
         map.Update(deltaTime);
         skeleton.Update(deltaTime);
-        player.Update(deltaTime, skeleton, mousePosition);
+        player.Update(deltaTime, skeleton, mousePosition);  
 
-        window.clear(sf::Color::Red);
+        window.clear(sf::Color::Blue);
         map.Draw(window);
         player.Draw(window);
         skeleton.Draw(window);

@@ -1,17 +1,19 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
-#define NUMBER_OF_SPRITES 10
+#include "Tile.h"
 
 class Map
 {
 private:
 	sf::Texture tileSheetTexture;
-	sf::Sprite sprites[NUMBER_OF_SPRITES];
+	Tile* tiles;
+	int numberOfTiles;
 	int tileWidth;
 	int tileHeight;
 	int totalTilesX;
 	int totalTilesY;
+	int mapNumbers[6] = { 	1, 1, 1, 25, 27, 30};
+	sf::Sprite mapSprites[6];
 public:
 	Map();
 	~Map();

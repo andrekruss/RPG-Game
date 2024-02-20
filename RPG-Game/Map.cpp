@@ -21,20 +21,43 @@ void Map::Load()
 {
     if (tileSheetTexture.loadFromFile("Assets/World/Prison/tilesheet.png"))
     {
+
         totalTilesX = tileSheetTexture.getSize().x / tileWidth;
         totalTilesY = tileSheetTexture.getSize().y / tileHeight;
-        std::cout << "Loaded prison tilesheet!" << std::endl;;
-        
-        for (size_t i = 0; i < NUMBER_OF_SPRITES; i++) {
-            sprites[i].setTexture(tileSheetTexture);
-            sprites[i].setTextureRect(sf::IntRect(i * tileWidth, i * tileHeight, tileWidth, tileHeight));
-            sprites[i].setScale(sf::Vector2f(5.0f, 5.0f));
-            sprites[i].setPosition(sf::Vector2f(100 + tileWidth * i * 5, 100));
+
+        numberOfTiles = totalTilesX * totalTilesY;
+
+        tiles = new Tile[numberOfTiles];
+
+        for (size_t y = 0; y < totalTilesY; y++) {
+            for (size_t x = 0; x < totalTilesX; x++) {
+                int i = x + y * totalTilesX;
+                tiles[i].id = x;
+                tiles[i].position = sf::Vector2i(x * tileWidth, y * tileHeight);
+            }
         }
     }
     else
     {
         std::cout << "Failed to load prison tilesheet!" << std::endl;
+    }
+
+    for (size_t y = 0; y < 2; y++)
+    {
+        for (size_t x = 0; x < 3; x++)
+        {
+            int i = x + y * 3;
+            int index = mapNumbers[i];
+            mapSprites[i].setTexture(tileSheetTexture);
+            mapSprites[i].setTextureRect(sf::IntRect(
+                tiles[index].position.x,
+                tiles[index].position.y,
+                tileWidth,
+                tileHeight
+                ));
+            mapSprites[i].setPosition(sf::Vector2f(x * 16 * 5, y * 16 * 5));
+            mapSprites[i].setScale(sf::Vector2f(5, 5));
+        }
     }
 }
 
@@ -44,7 +67,7 @@ void Map::Update(float deltaTime)
 
 void Map::Draw(sf::RenderWindow& window)
 {
-    for (size_t i = 0; i < NUMBER_OF_SPRITES; i++) {
-        window.draw(sprites[i]);
+    for (size_t i = 0; i < 6; i++) {
+        window.draw(mapSprites[i]);
     }
 }
